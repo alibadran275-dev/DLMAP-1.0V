@@ -1,0 +1,105 @@
+#!/bin/bash
+# File: dlmap (Main Executable Script)
+# DLMap: Generalized Security Scanner - Nmap Style (v1.0 Final - General File Mode)
+
+# --- Configuration & Paths ---
+# Use the absolute path to the project directory, relative to the home directory
+DLMAP_DIR="$HOME/DLMap"
+SCRIPTS_DIR="$DLMAP_DIR/dlmap_scripts"
+START_TIME=$(date +%s)
+
+# --- Core Functions ---
+
+# Function: check_dependencies
+# Disabled for generalized file scanning
+check_dependencies() {
+    :
+}
+
+# Scan Execution Logic
+handle_scan() {
+    TARGET="$1"
+    shift
+    FLAGS="$@"
+
+    if [[ ! -f "$TARGET" ]]; then
+        # Nmap style error message for unresolved target
+        echo "DLMap: Failed to resolve target '$TARGET'. No results."
+        exit 1
+    fi
+
+    echo ""
+    echo "Starting DLMap 1.0 ( https://dlmap.sh ) at $(date '+%Y-%m-%d %H:%M')"
+    echo "DLMap scan report for $TARGET"
+    echo "Host is up (0.00s latency)."
+
+    # General File Type Analysis (Replacing PACKAGE/VERSION info)
+    echo "File Type: $(file -b --mime-type "$TARGET")"
+    echo "File Size: $(du -h "$TARGET" | awk '{print $1}')"
+
+    echo ""
+    echo "| DLMap-NSE Scripts:"
+
+    # Aggressive Scan Mode Check (-A)
+    # Includes all generalized scripts (Note: Some original scripts like firebase-check/component-scan need external refactoring)
+    if [[ " $FLAGS " =~ " -A " ]]; then
+        # Keeping relevant general scans: Secrets, Network, Permissions, Obfuscation
+        FLAGS="$FLAGS -sS -sN -sP -sO -sF"
+    fi
+
+    # Execute all defined scripts based on Flags (Order is crucial for reporting)
+    # NOTE: Scripts like bytecode-readiness/integrity-check/uri-scheme-check rely heavily on APK structure and are temporarily excluded/modified.
+    
+    # [[ " $FLAGS " =~ " -sB " ]] && bash "$SCRIPTS_DIR/bytecode-readiness.sh" "$TARGET" # APK Specific
+    # [[ " $FLAGS " =~ " -sC " ]] && bash "$SCRIPTS_DIR/component-scan.sh" "$TARGET"     # APK Specific
+    [[ " $FLAGS " =~ " -sF " ]] && bash "$SCRIPTS_DIR/firebase-check.sh" "$TARGET"
+    # [[ " $FLAGS " =~ " -sI " ]] && bash "$SCRIPTS_DIR/integrity-check.sh" "$TARGET"    # APK Specific
+    [[ " $FLAGS " =~ " -sN " ]] && bash "$SCRIPTS_DIR/network-security.sh" "$TARGET"
+    [[ " $FLAGS " =~ " -sO " ]] && bash "$SCRIPTS_DIR/obfuscation-check.sh" "$TARGET"
+    [[ " $FLAGS " =~ " -sS " ]] && bash "$SCRIPTS_DIR/secrets-search.sh" "$TARGET"
+    [[ " $FLAGS " =~ " -sP " ]] && bash "$SCRIPTS_DIR/permissions-scan.sh" "$TARGET"
+    # [[ " $FLAGS " =~ " -sU " ]] && bash "$SCRIPTS_DIR/uri-scheme-check.sh" "$TARGET"    # APK Specific
+    
+    # Calculate and display scan time (Nmap style)
+    END_TIME=$(date +%s)
+    DURATION=$((END_TIME - START_TIME))
+    echo ""
+    echo "DLMap done: 1 IP address (1 host up) scanned in ${DURATION}.00 seconds"
+}
+
+# --- Execution Flow (Nmap Syntax: Flags/Target) ---
+
+check_dependencies
+
+# Handle -h, --help
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+    bash "$SCRIPTS_DIR/help.sh"
+    exit 0
+fi
+
+# Extract flags and target (Robust Nmap style parsing)
+TARGET=""
+FLAGS=""
+for arg in "$@"; do
+    if [[ "$arg" == -* ]]; then
+        FLAGS="$FLAGS $arg"
+    else
+        # The first non-flag argument is the target
+        if [ -z "$TARGET" ]; then
+            TARGET="$arg"
+        else
+            echo "DLMap: Too many targets specified. Only one file is allowed per scan."
+            exit 1
+        fi
+    fi
+done
+
+if [ -z "$TARGET" ]; then
+    # Nmap style: If no target is given, show help
+    echo "DLMap: Must specify target. Use -h for help."
+    bash "$SCRIPTS_DIR/help.sh"
+    exit 1
+fi
+
+handle_scan "$TARGET" "$FLAGS"
+

@@ -1,0 +1,43 @@
+Metadata-Version: 2.4
+Name: dlmap-package
+Version: 1.0
+Summary: Ultimate Static Analysis Tool for Security
+Author: Lega
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Security
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Dynamic: author
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
+# DLMap v1.0: Ultimate Static Analysis Tool 🛡️
+
+DLMap is a high-performance Python-based tool designed for comprehensive static security analysis of files and Android APKs. It provides deep insights into secrets, network traces, permissions, and code integrity without execution.
+
+## 🚀 Final Release Features (v1.0)
+
+| Flag | Scan Name | Description |
+| :--- | :--- | :--- |
+| `-A` / `--all` | Ultimate Scan | Runs ALL default deep scans below. (Recommended) |
+| `-sS` / `--secrets`| Secret Search | Scans for hardcoded tokens (JWT, AWS, API keys). |
+| `-sN` / `--network`| Network Traces | Looks for cleartext HTTP endpoints and hardcoded IPs. |
+| `-sP` / `--permissions`| Privileges Check | Detects high-privilege keywords (`root`, `sudo`, `system`). |
+| **`-sA` / `--static`** | **Deep Static Analysis** | **[NEW]** Runs Entropy calculation (for obfuscation/encryption detection) and native code function checks. |
+| **`-sI` / `--integrity`**| **APK Integrity** | **[NEW]** Checks Min/Target SDK compliance and exploitable Android Manifest settings (`allowBackup`, `debuggable`). |
+
+## ⚙️ Usage Example
+
+```bash
+# Running the comprehensive ultimate scan on an APK:
+dlmap -A /sdcard/Download/app.apk
+

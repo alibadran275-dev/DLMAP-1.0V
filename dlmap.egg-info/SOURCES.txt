@@ -1,0 +1,10 @@
+README.md
+setup.py
+dlmap.egg-info/PKG-INFO
+dlmap.egg-info/SOURCES.txt
+dlmap.egg-info/dependency_links.txt
+dlmap.egg-info/entry_points.txt
+dlmap.egg-info/top_level.txt
+dlmap_package/__init__.py
+dlmap_package/core_scanner.py
+dlmap_package/main.py

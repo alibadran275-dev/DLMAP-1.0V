@@ -1,0 +1,12 @@
+LICENSE
+README.md
+setup.py
+dlmap_package/__init__.py
+dlmap_package/core_scanner.py
+dlmap_package/main.py
+dlmap_package.egg-info/PKG-INFO
+dlmap_package.egg-info/SOURCES.txt
+dlmap_package.egg-info/dependency_links.txt
+dlmap_package.egg-info/entry_points.txt
+dlmap_package.egg-info/requires.txt
+dlmap_package.egg-info/top_level.txt
