@@ -1,2 +1,0 @@
-[console_scripts]
-dlmap = dlmap_package.main:main
