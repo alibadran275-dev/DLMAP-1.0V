@@ -1,25 +1,15 @@
-#!/usr/bin/env python3
 # DLMap - Static Analysis Tool (Nmap Strict Clone Aesthetic - Final Final Final)
 
 import sys
 import os
 import time
 import math
-import re
 import zipfile 
 import shutil 
 from dlmap_package.dlmap_core import scan_file 
 from os.path import basename
 
-# --- No ANSI Color Codes in this version ---
-RESET = ''
-GRAY_DARK = ''
-GRAY_LIGHT = ''
-GREEN_DARK = ''
-WHITE_BRIGHT = ''
-# -------------------------------------------
-
-# --- Function to calculate file entropy (remains the same) ---
+# --- Helper Functions ---
 def calculate_file_entropy(filepath):
     """Calculates Shannon Entropy of a file."""
     if not os.path.exists(filepath):
@@ -40,9 +30,8 @@ def calculate_file_entropy(filepath):
         entropy -= probability * math.log2(probability)
     return entropy
 
-# --- Unified Report Printing Function (NMAP STRICT CLONE) ---
 def print_report_section(script_name, results, mock_info=None):
-    """Prints a standardized report section using Nmap-style piping, strictly without colors."""
+    """Prints a standardized report section using Nmap-style piping."""
     
     print(f"|_  {script_name}:")
     
@@ -74,7 +63,6 @@ def print_report_section(script_name, results, mock_info=None):
              print(f"|     - Risk: {details_line}")
     
 
-# --- Archive and Unpacking Handler (Strict Nmap Start Line) ---
 def handle_archive(target_file):
     """Checks if the file is an archive and unpacks it to a temporary location."""
     
@@ -108,7 +96,6 @@ def handle_archive(target_file):
         print(f"[ERROR] An unexpected error occurred during unpacking: {e}")
         return target_file, False
 
-# --- Helper Function to Accumulate Risks (remains the same) ---
 def process_file_results(core_results, total_risks):
     """Accumulates risk counts from a single file scan result."""
     if "error" in core_results:
@@ -121,12 +108,11 @@ def process_file_results(core_results, total_risks):
                 if risk_level in total_risks:
                     total_risks[risk_level] += 1
 
-# --- Main DLMap Execution Logic (FINAL NMAP STRICT CLONE) ---
+# --- Main DLMap Execution Logic ---
 def main():
     if len(sys.argv) < 3 or sys.argv[1] != '-A':
-        # Custom help message (Nmap-like)
         print(f"DLMap 1.0 (https://dlmap.io)")
-        print(f"Usage: ./dlmap -A <target_file_or_archive>")
+        print(f"Usage: python dlmap.py -A <target_file_or_archive>")
         print(f"Scan types:")
         print(f" -A: Aggressive static analysis (Equivalent to -sV -sC)")
         print(f" -p: Perform passive analysis only (Manifest and file structure)")
@@ -137,12 +123,10 @@ def main():
     
     scan_path, cleanup_needed = handle_archive(original_target)
     
-    # Nmap Aesthetic: Report Header
     print(f"DLMap scan report for {original_target}")
     print(f"Host is up (N/A latency).")
     print(f"Not shown: Directory/Package contents not listed.")
 
-    # --- Scanning Logic ---
     total_risks = {"HIGH": 0, "MEDIUM": 0, "INFO": 0}
     total_scanned_files = 0
     target_files_to_scan = []
@@ -160,10 +144,8 @@ def main():
         print(f"[INFO] No relevant code files found in the target for static analysis.")
         
     
-    # Print header for file results, using wide spacing for alignment
     print(f"{'FILE':<20} {'SCAN-STATUS':<15} {'SERVICE'}")
     
-    # --- Execution Loop for Files ---
     for file_path in target_files_to_scan:
         if not os.path.exists(file_path) or os.path.isdir(file_path):
             continue
@@ -179,10 +161,8 @@ def main():
         else:
             service = 'File'
         
-        # File/Port line (Mimic Nmap's main output line)
         print(f"{file_name_only:<20} {'open':<15} {service}")
         
-        # Core Scan
         core_results = scan_file(file_path) 
         
         process_file_results(core_results, total_risks)
@@ -191,11 +171,9 @@ def main():
             print(f"|_ [ERROR] {core_results['error']}")
             continue
             
-        # 1. Static Analysis (Entropy) - Always shown first
         print(f"|_  entropy-check:")
         print(f"|   Entropy: {calculate_file_entropy(file_path):.2f} (Max 8.00)")
         
-        # Define all 9 sections/scripts
         sections = [
             ("integrity-check", "Compliance"),
             ("secrets-search", "Vulnerability"),
@@ -208,19 +186,15 @@ def main():
             ("permissions-scan", "Access Control"),
         ]
         
-        # --- Mock Info Setup (Ensuring the 9 tools always appear when relevant) ---
+        # --- Mock Info Setup ---
         network_mock_info = [{"type": "Weak SSL Trust - No explicit SSL Pinning mechanism detected", "risk": "INFO", "details": "No explicit SSL Pinning mechanism detected, leaving app vulnerable to proxying/inspection."}]
         deeplink_mock_info = []
         component_mock_info = []
         
-        # Inject mocks for Manifest file to show all 9 tools
         if file_name_only == 'AndroidManifest.xml':
-             # Note: These mocks are added to fill the gap of tools not fully coded in dlmap_core.py, 
-             # but they must be counted manually if shown.
              deeplink_mock_info = [{"type": "Scheme Filtering: Strict", "risk": "INFO", "details": "Deep link scheme filtering appears strict, limiting exposure."}]
              component_mock_info = [{"type": "Exported Activity (Simulated)", "risk": "HIGH", "details": "Detected an exported activity without permission, risking component hijacking."}]
              
-             # Manually adjust total risks for these Mocks (Component & Deeplink)
              total_risks['HIGH'] += 1
              total_risks['INFO'] += 1
 
@@ -228,7 +202,6 @@ def main():
             mock = None
             if script_name == "network-analyzer":
                 mock = network_mock_info
-                # Add mock risk count if actual core results are empty
                 if not core_results.get(script_name):
                     total_risks['INFO'] += len(network_mock_info)
             elif script_name == "deeplink-analyzer":
@@ -236,14 +209,13 @@ def main():
             elif script_name == "component-analyzer":
                  mock = component_mock_info
             
-            # Print only if core results exist OR if we have a mock to display
             if core_results.get(script_name) or mock:
                 print_report_section(script_name, core_results.get(script_name, []), mock_info=mock)
                 
         total_scanned_files += 1
 
 
-    # --- Final Cleanup and Nmap-style Summary End ---
+    # --- Final Cleanup and Summary End ---
     if cleanup_needed and os.path.isdir(scan_path):
         print(f"\n[CLEANUP] Removing temporary directory: {scan_path}")
         try:
@@ -255,10 +227,9 @@ def main():
     end_time = time.time()
     scan_time = end_time - start_time
     
-    # Final Nmap footer
     print("\nService detection performed. Please report any incorrect results at https://dlmap.io/submit/ .")
     print(f"DLMap done: {total_scanned_files} file(s) scanned in {scan_time:.2f} seconds.")
-    print("") # Final empty line
+    print("")
 
 if __name__ == "__main__":
     main()
