@@ -13,46 +13,66 @@ DLMAP (Deep Learning Mobile Application Processor) is a mobile application analy
 
 This release marks a complete transition to a clean, efficient Python project structure, integrating a powerful module for secrets scanning.
 
-### 🌟 New and Current Features (V1.0.1)
+# DLMap 1.0 (Python Core - Ultimate Edition)
 
-* **High-Confidence Secrets Scan (`secrets-search`):** A new built-in module to detect hardcoded keys, tokens, and encrypted/embedded credentials directly within the code, focusing on high-confidence secrets (e.g., live API keys).
-* **Clean Project Structure:** Transitioned to a Python Package model with separate modules (e.g., `dlmap_package/secrets_module.py`) for easier development and maintenance.
-* **Execution Path Fix:** Resolved the execution issue in Termux, allowing the tool to be run directly via the `$PATH` variable (`dlmap`) without the need for `./`.
-* **Comprehensive Metadata Analysis:** Extracts SDK versions, file size, and data type information.
-* **Encryption and Obfuscation Check (Entropy):** Analyzes the file's entropy level to detect signs of encryption or code obfuscation.
-* **Security Compliance Check:** Analyzes `minSdkVersion` and `targetSdkVersion` for outdated or weak security practices.
+DLMap is a comprehensive Static Analysis Security Testing (SAST) tool designed to scan Python code (and simulated application files like APKs/Manifests) for common security vulnerabilities, insecure configurations, and dangerous information disclosure risks.
 
-### ⚙️ Installation and Usage (Termux)
+It uses 9 dedicated security modules to provide a detailed, actionable security report.
 
-#### Prerequisites
+## 🚀 Key Features
 
-* **Termux** (with `python` installed).
+* **9 Integrated Security Modules:** Covers Secrets, Cryptography, Network, Component, Storage, Deeplink, Integrity, Manifest, and Permissions analysis.
+* **High Fidelity Patterns:** Uses specific regex and logic to detect high-risk patterns (e.g., hardcoded API keys, MD5 usage, cleartext traffic).
+* **Unified Reporting:** Generates a structured, easy-to-read report similar to common professional security scanners (Nmap/Nuclei style).
 
-#### Installation Steps
+## 🛠️ Requirements
 
+DLMap is built entirely on Python 3 and requires no external dependencies beyond the standard library.
+
+* Python 3.x
+
+## ⚙️ Installation and Setup
+
+1.  **Clone the Repository (Using the New Location):**
+    ```bash
+    git clone [https://github.com/alibadran275-dev/DLMAP-1.0V.git](https://github.com/alibadran275-dev/DLMAP-1.0V.git)
+    cd DLMAP-1.0V
+    ```
+
+2.  **Ensure Execution Permissions:**
+    ```bash
+    chmod +x dlmap
+    ```
+
+3.  **Run the Test File (Optional but Recommended):**
+    To ensure all 9 modules are running correctly, run the comprehensive test file:
+    ```bash
+    ./dlmap -A ./comprehensive_test.py
+    ```
+
+## 💡 Usage
+
+DLMap currently focuses on analyzing single files containing code snippets, variables, and simulated configurations (like a Python file containing Android Manifest variables).
+
+**Command Syntax:**
 ```bash
-# 1. Install Git and Python (if not already installed)
-pkg install git python -y
+./dlmap -A <target_file_path>
 
-# 2. Clone the repository
-git clone [https://github.com/Alibadran275-dev/DLMAP.git](https://github.com/Alibadran275-dev/DLMAP.git)
+Example:./dlmap -A ./my_app_code.py
 
-# 3. Navigate to the project directory
-cd DLMAP
+📝 Analysis Modules (The 9 Core Scanners)
 
-# 4. Grant execution permissions to the main file
-chmod +x dlmap
+Module Description Risks Detected
+secrets-search Finds hardcoded credentials, API keys, tokens, and sensitive data. High-Conf API Keys, AWS Access Keys, Passwords/Secrets.
+crypto-checker Identifies weak or outdated cryptographic implementations. MD5 usage, Hardcoded Encryption Keys/IVs.
+network-analyzer Flags insecure communication protocols and hardcoded network data. Cleartext HTTP URLs, Hardcoded Server IPs, Cleartext Traffic Flag.
+storage-checker Checks for insecure data storage practices on the device. Insecure Shared Preferences (Auth Tokens), World-Readable/Writable files.
+deeplink-analyzer Examines deep link schemes for exploitable, unauthenticated entry points. Sensitive deep links (e.g., password reset), Custom Insecure Schemes.
+integrity-check Assesses application compliance based on target SDK versions. Low minSdkVersion (lacks Runtime Permissions), Old targetSdkVersion.
+manifest-settings Detects critical, exploitable settings defined in the manifest. android:debuggable="true" in production code.
+permissions-scan Flags requests for dangerous, high-risk system permissions. READ_SMS, SYSTEM_ALERT_WINDOW, ACCESS_FINE_LOCATION.
+static-analysis Measures file entropy to detect packed, compressed, or encrypted content. High Entropy (indicates obfuscation or native code).
 
-# 5. [Optional/Recommended] To run the tool globally (without ./):
-# (Ensure the bin folder exists)
-mkdir -p $HOME/bin
-mv dlmap $HOME/bin/
-export PATH=$PATH:$HOME/bin
-Usage Examples
-Command Description
-dlmap <target_file> Shows the help options.
-dlmap -sS /sdcard/app.apk Runs Secrets Scan only.
-dlmap -A /sdcard/app.apk Runs the Comprehensive (Ultimate) Analysis.
-dlmap -A ./test_file.txt Runs the analysis on a local test file.
-🛑 Important Note
-This tool is designed for security analysis and educational purposes. It must be used in compliance with all local laws and ethics, and only on applications for which you have explicit authorization to analyze.
+🤝 Contribution
+​Contributions are welcome! Feel free to fork the repository, enhance the analysis patterns, or propose new features.
+​Developed by Ali Badran.
