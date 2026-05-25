@@ -41,6 +41,19 @@ def print_banner():
 
 
 def main():
+    # Redirect execution to the ultimate pro version which is the new v1 beta
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    ultimate_script = os.path.join(current_dir, "dlmap_ultimate_pro.py")
+    
+    if os.path.exists(ultimate_script):
+        # Pass all arguments to the ultimate script
+        args = sys.argv[1:]
+        # Use subprocess to run the other script and keep the environment
+        import subprocess
+        cmd = [sys.executable, ultimate_script] + args
+        subprocess.run(cmd)
+        sys.exit(0)
+    
     """Main entry point."""
     parser = argparse.ArgumentParser(
         description=f"{PROJECT_NAME} v{VERSION} - {DESCRIPTION}",
