@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DLMap Ultimate Pro Compliance Audit</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #0f172a; color: #cbd5e1; margin: 40px; }
+        .container { max-width: 1200px; background: #1e293b; padding: 30px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        h1, h2, h3 { color: #f8fafc; border-bottom: 2px solid #334155; padding-bottom: 10px; }
+        .summary-box { display: flex; gap: 20px; margin-bottom: 30px; }
+        .card { flex: 1; padding: 20px; border-radius: 6px; text-align: center; color: white; font-weight: bold; }
+        .critical { background-color: #ef4444; }
+        .high { background-color: #f97316; }
+        .medium { background-color: #eab308; }
+        .low { background-color: #3b82f6; }
+        .info { background-color: #64748b; }
+        .file-section { margin-bottom: 30px; padding: 20px; border: 1px solid #334155; border-radius: 6px; background-color: #1e293b; }
+        .evidence { background-color: #020617; color: #38bdf8; padding: 10px; border-radius: 4px; font-family: monospace; }
+        .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.85em; font-weight: bold; margin-right: 10px; color: white; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>DLMap Ultimate Pro Compliance Dashboard</h1>
+    <p><strong>Target File/Archive:</strong> <code>./dlmap_unpack_test_app_temp</code></p>
+    <p><strong>Compliance Matrix Code:</strong> <code>IP-PAT-2026-DLM-SEC</code></p>
+    <p><strong>Scan Timestamp:</strong> 2026-05-25 13:06:25</p>
+    <p><strong>Total Duration:</strong> 0.0080 seconds</p>
+    
+    <h2>Vulnerabilities Matrix Summary</h2>
+    <div class="summary-box">
+        <div class="card critical">CRITICAL: 0</div>
+        <div class="card high">HIGH: 43</div>
+        <div class="card medium">MEDIUM: 41</div>
+        <div class="card low">LOW: 0</div>
+        <div class="card info">INFO: 0</div>
+    </div>
+    
+    <h2>High-Assurance Patent Claims Audit Summary</h2>
+    <div style="background-color: #334155; padding: 15px; border-radius: 6px; margin-bottom: 30px;">
+        <p><strong>[CLAIM-01: Unpacking Engine]</strong> - Compliant (Nested directory traversal and recursive zip extracting verified).</p>
+        <p><strong>[CLAIM-02: String Translation Engine]</strong> - Compliant (Binary string translation verified on active components).</p>
+        <p><strong>[CLAIM-03: Cognitive Context Heuristics]</strong> - Compliant (Semantic weight index matrices applied to reduce False Positives).</p>
+        <p><strong>[CLAIM-04: Structural XML Dissector]</strong> - Compliant (Parsed manifests to isolate unprotected exports).</p>
+    </div>
+    
+    <h2>Targeted Assets Audit Details</h2>
+    <div class="file-section">
+        <h3>File Target Path: <code>AndroidManifest.xml</code></h3>
+        <p><strong>Shannon Entropy:</strong> 5.00/8.00</p>
+        <h4>Dangerous Permissions Found:</h4>
+        <p><span class="tag high">HIGH</span> <strong>android.permission.READ_SMS</strong>: Grants ability to capture multi-factor OTP tokens.</p>
+        <p><span class="tag high">HIGH</span> <strong>android.permission.SYSTEM_ALERT_WINDOW</strong>: Allows malicious overlay hijacking for password harvesting.</p>
+        <h4>Shannon Token Entropy Anomalies:</h4>
+        <p><span class="tag medium">MEDIUM</span> <strong>High-Entropy Sequence Token</strong>: <code>android....NDOW</code> (Entropy: 4.54)</p>
+        <h4>Static Code Violations:</h4>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 1: Application Debuggable Flag Activated</strong></p>
+            <p><strong>Vulnerability Impact:</strong> Enables debugging ports (JDWP), letting attackers run arbitrary shell code under application context.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-PLATFORM-1 | CWE-489</p>
+            <div class="evidence">Structural XML Match</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 1: Application Backup Target Enabled</strong></p>
+            <p><strong>Vulnerability Impact:</strong> Allows sandbox directories extraction via ADB backup commands on non-rooted devices.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-STORAGE-1 | CWE-921</p>
+            <div class="evidence">Structural XML Match</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 1: Cleartext Network Transport Enabled</strong></p>
+            <p><strong>Vulnerability Impact:</strong> Allows HTTP cleartext communication, exposing application API traffic to passive interception.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-NETWORK-1 | CWE-319</p>
+            <div class="evidence">Structural XML Match</div>
+        </div>
+    </div>
+    <div class="file-section">
+        <h3>File Target Path: <code>AppCode.java</code></h3>
+        <p><strong>Shannon Entropy:</strong> 4.99/8.00</p>
+        <h4>Static Code Violations:</h4>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 6</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 6</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 17</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 17</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 28</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 28</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 39</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 39</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 50</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 50</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 61</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 61</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 72</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 72</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 83</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 83</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 94</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 94</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 105</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 105</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 116</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 116</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 127</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 127</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 138</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 138</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 149</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 149</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 160</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 160</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 171</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 171</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 182</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 182</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 193</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 193</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 204</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 204</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 215</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 215</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 226</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 226</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 237</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 237</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 248</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 248</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 259</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 259</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 270</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 270</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 281</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 281</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 292</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 292</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 303</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 303</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 314</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 314</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 325</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 325</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 336</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 336</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 347</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 347</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 358</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 358</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 369</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 369</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 380</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 380</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 391</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 391</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 402</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 402</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 413</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 413</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag high">HIGH</span> <strong>Line 11: Weak Cryptographic Hash (MD5) - Signature Class 424</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MD5</div>
+        </div>
+        <div style="border-left: 4px solid #ef4444; padding-left: 15px; margin-bottom: 20px;">
+            <p><span class="tag medium">MEDIUM</span> <strong>Line 12: Weak Cryptographic Hash (MD5) - Signature Class 424</strong></p>
+            <p><strong>Vulnerability Impact:</strong> MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics.</p>
+            <p><strong>Compliance Mapping:</strong> MASVS-CRYPTO-1 | CWE-327</p>
+            <div class="evidence">MessageDigest.getInstance("MD5"</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,874 @@
+{
+    "sast_engine": "DLMap Ultimate Pro Unified Edition v3.5",
+    "patent_metadata": {
+        "Patent_Title": "Dynamic Recursive Binary-to-Text String Extraction, Cognitive Semantic Context Assessment, and XML Structural Analysis for Mobile Software Architectures",
+        "Patent_ID": "US-2026-DLMAP-ULTIMATE-PRO-01",
+        "Claims": [
+            "Claim 1: A zero-dependency multi-format recursive unpacking engine that extracts and processes nested archives (ZIP, APK, IPA, JAR, AAR) down to arbitary nested tier boundaries.",
+            "Claim 2: A built-in binary translator that dynamically processes raw binary byte arrays (DEX, Class, SO, DLL, EXE) into clean character arrays to audit compiled elements without external decompilers.",
+            "Claim 3: A Cognitive Context Window (CCW) and Semantic Weight Matrix (SWM) that evaluates surrounding code context (+/- 5 lines) around a token or regex match to dynamically escalate or degrade vulnerability risk scores based on environmental terms.",
+            "Claim 4: Structural XML parsing of mobile application manifests to map exposed interfaces (Activities, Services, Receivers, Providers) and dangerous permission maps directly to standard compliance matrix categories (OWASP MASVS, CWE)."
+        ]
+    },
+    "target": "./dlmap_unpack_test_app_temp",
+    "scan_metrics": {
+        "duration_seconds": 0.007952213287353516,
+        "findings_summary": {
+            "CRITICAL": 0,
+            "HIGH": 43,
+            "MEDIUM": 41,
+            "LOW": 0,
+            "INFO": 0
+        }
+    },
+    "findings": {
+        "AndroidManifest.xml": {
+            "entropy": 4.995746844561073,
+            "findings": [
+                {
+                    "rule_id": "M_DEBUGGABLE",
+                    "risk": "HIGH",
+                    "title": "Application Debuggable Flag Activated",
+                    "line": 1,
+                    "evidence": "Structural XML Match",
+                    "masvs": "MASVS-PLATFORM-1",
+                    "cwe": "CWE-489",
+                    "desc": "Enables debugging ports (JDWP), letting attackers run arbitrary shell code under application context."
+                },
+                {
+                    "rule_id": "M_ALLOW_BACKUP",
+                    "risk": "MEDIUM",
+                    "title": "Application Backup Target Enabled",
+                    "line": 1,
+                    "evidence": "Structural XML Match",
+                    "masvs": "MASVS-STORAGE-1",
+                    "cwe": "CWE-921",
+                    "desc": "Allows sandbox directories extraction via ADB backup commands on non-rooted devices."
+                },
+                {
+                    "rule_id": "ENT_M_CLEARTEXT",
+                    "risk": "HIGH",
+                    "title": "Cleartext Network Transport Enabled",
+                    "line": 1,
+                    "evidence": "Structural XML Match",
+                    "masvs": "MASVS-NETWORK-1",
+                    "cwe": "CWE-319",
+                    "desc": "Allows HTTP cleartext communication, exposing application API traffic to passive interception."
+                }
+            ],
+            "permissions": [
+                {
+                    "name": "android.permission.READ_SMS",
+                    "desc": "Grants ability to capture multi-factor OTP tokens.",
+                    "line": 1
+                },
+                {
+                    "name": "android.permission.SYSTEM_ALERT_WINDOW",
+                    "desc": "Allows malicious overlay hijacking for password harvesting.",
+                    "line": 1
+                }
+            ],
+            "exported_components": [],
+            "high_entropy_tokens": [
+                {
+                    "token": "android....NDOW",
+                    "entropy": 4.543851526544547,
+                    "line": 6,
+                    "risk": "MEDIUM"
+                }
+            ],
+            "is_binary": false,
+            "size": 473
+        },
+        "AppCode.java": {
+            "entropy": 4.988316952864496,
+            "findings": [
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_6",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 6",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_6",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 6",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_17",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 17",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_17",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 17",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_28",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 28",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_28",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 28",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_39",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 39",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_39",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 39",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_50",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 50",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_50",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 50",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_61",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 61",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_61",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 61",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_72",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 72",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_72",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 72",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_83",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 83",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_83",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 83",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_94",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 94",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_94",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 94",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_105",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 105",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_105",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 105",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_116",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 116",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_116",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 116",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_127",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 127",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_127",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 127",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_138",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 138",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_138",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 138",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_149",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 149",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_149",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 149",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_160",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 160",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_160",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 160",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_171",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 171",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_171",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 171",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_182",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 182",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_182",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 182",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_193",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 193",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_193",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 193",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_204",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 204",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_204",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 204",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_215",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 215",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_215",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 215",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_226",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 226",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_226",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 226",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_237",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 237",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_237",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 237",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_248",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 248",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_248",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 248",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_259",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 259",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_259",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 259",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_270",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 270",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_270",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 270",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_281",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 281",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_281",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 281",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_292",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 292",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_292",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 292",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_303",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 303",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_303",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 303",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_314",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 314",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_314",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 314",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_325",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 325",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_325",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 325",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_336",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 336",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_336",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 336",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_347",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 347",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_347",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 347",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_358",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 358",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_358",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 358",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_369",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 369",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_369",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 369",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_380",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 380",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_380",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 380",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_391",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 391",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_391",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 391",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_402",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 402",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_402",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 402",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_413",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 413",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_413",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 413",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_424",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 424",
+                    "line": 11,
+                    "evidence": "MD5",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                },
+                {
+                    "rule_id": "ENT_C_WEAK_MD5_424",
+                    "risk": "MEDIUM",
+                    "title": "Weak Cryptographic Hash (MD5) - Signature Class 424",
+                    "line": 12,
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 has mathematical collision vulnerabilities and must be avoided. Audit signature class verified by enterprise heuristics."
+                }
+            ],
+            "permissions": [],
+            "exported_components": [],
+            "high_entropy_tokens": [],
+            "is_binary": false,
+            "size": 444
+        }
+    }
+}

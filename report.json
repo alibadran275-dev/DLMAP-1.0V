@@ -1,0 +1,195 @@
+{
+    "metadata": {
+        "tool": "dlmap v1 beta",
+        "target": "./dlmap_unpack_test_app_temp",
+        "duration_seconds": 0.006017446517944336
+    },
+    "summary": {
+        "total_files_scanned": 3,
+        "total_findings": 13,
+        "risk_breakdown": {
+            "INFO": 0,
+            "LOW": 0,
+            "MEDIUM": 0,
+            "HIGH": 5,
+            "CRITICAL": 8
+        }
+    },
+    "results": {
+        "AndroidManifest.xml": {
+            "entropy": 4.750730431090355,
+            "findings": [
+                {
+                    "rule_id": "M001_DEBUG_MODE",
+                    "risk": "CRITICAL",
+                    "title": "Debug Mode Enabled in Production",
+                    "line": 1,
+                    "evidence": "Structural XML Match",
+                    "description": "Debuggable flag allows external tools to attach to the application.",
+                    "impact": "Complete application compromise, arbitrary code execution",
+                    "remediation": "Set android:debuggable='false' in production builds",
+                    "masvs": "MASVS-PLATFORM-1",
+                    "cwe": "CWE-489",
+                    "cvss_score": 9.8
+                },
+                {
+                    "rule_id": "M002_BACKUP_ENABLED",
+                    "risk": "HIGH",
+                    "title": "Application Backup Enabled",
+                    "line": 1,
+                    "evidence": "Structural XML Match",
+                    "description": "Allows ADB backup command to extract application sandbox data.",
+                    "impact": "Sensitive data extraction, credential theft",
+                    "remediation": "Set android:allowBackup='false' unless backup is essential",
+                    "masvs": "MASVS-STORAGE-1",
+                    "cwe": "CWE-921",
+                    "cvss_score": 7.5
+                },
+                {
+                    "rule_id": "M003_CLEARTEXT_TRAFFIC",
+                    "risk": "CRITICAL",
+                    "title": "Cleartext Network Traffic Allowed",
+                    "line": 1,
+                    "evidence": "Structural XML Match",
+                    "description": "Explicitly allows unencrypted HTTP traffic.",
+                    "impact": "Man-in-the-middle attacks, credential interception",
+                    "remediation": "Remove cleartext traffic flag and use HTTPS exclusively",
+                    "masvs": "MASVS-NETWORK-1",
+                    "cwe": "CWE-319",
+                    "cvss_score": 9.1
+                }
+            ],
+            "permissions": [
+                {
+                    "name": "android.permission.READ_SMS",
+                    "desc": "Grants ability to capture multi-factor OTP tokens.",
+                    "line": 1
+                },
+                {
+                    "name": "android.permission.SYSTEM_ALERT_WINDOW",
+                    "desc": "Allows malicious overlay hijacking for password harvesting.",
+                    "line": 1
+                }
+            ],
+            "exported_components": [
+                {
+                    "type": "activity",
+                    "name": ".MainActivity",
+                    "risk": "HIGH",
+                    "line": 1
+                }
+            ],
+            "size": 738,
+            "is_binary": false
+        },
+        "AppCode.java": {
+            "entropy": 4.441092959458237,
+            "findings": [
+                {
+                    "rule_id": "C001_AWS_KEY",
+                    "risk": "CRITICAL",
+                    "title": "Hardcoded AWS Credentials",
+                    "line": 16,
+                    "evidence": "AKIAI4...OQ3GPL",
+                    "description": "AWS access keys found in source code.",
+                    "impact": "Cloud infrastructure compromise, data breach",
+                    "remediation": "Remove keys from code, use AWS IAM roles",
+                    "masvs": "MASVS-STORAGE-2",
+                    "cwe": "CWE-798",
+                    "cvss_score": 9.8
+                },
+                {
+                    "rule_id": "C006_WEAK_MD5",
+                    "risk": "HIGH",
+                    "title": "Weak Cryptographic Hash - MD5",
+                    "line": 9,
+                    "evidence": "MessageDigest.getInstance(\"MD5",
+                    "description": "MD5 has known collision vulnerabilities.",
+                    "impact": "Hash collision attacks, authentication bypass",
+                    "remediation": "Use SHA-256 or stronger hash functions",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "cvss_score": 5.9
+                },
+                {
+                    "rule_id": "C012_HARDCODED_KEY",
+                    "risk": "CRITICAL",
+                    "title": "Hardcoded Encryption Key",
+                    "line": 13,
+                    "evidence": "password = \"",
+                    "description": "Encryption keys hardcoded in source.",
+                    "impact": "Encryption bypass, data decryption",
+                    "remediation": "Use key derivation functions and secure key storage",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-321",
+                    "cvss_score": 8.2
+                },
+                {
+                    "rule_id": "C012_HARDCODED_KEY",
+                    "risk": "CRITICAL",
+                    "title": "Hardcoded Encryption Key",
+                    "line": 16,
+                    "evidence": "Key = ...Q3GPL\"",
+                    "description": "Encryption keys hardcoded in source.",
+                    "impact": "Encryption bypass, data decryption",
+                    "remediation": "Use key derivation functions and secure key storage",
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-321",
+                    "cvss_score": 8.2
+                }
+            ],
+            "permissions": [],
+            "exported_components": [],
+            "size": 589,
+            "is_binary": false
+        },
+        "vulnerable_app.py": {
+            "entropy": 4.7413897696554566,
+            "findings": [
+                {
+                    "rule_id": "C015_AST_TAINT_FLOW",
+                    "risk": "CRITICAL",
+                    "title": "Critical Code Execution Injection via exec()",
+                    "line": 10,
+                    "evidence": "Tainted flow of variable 'user_data' to execution sink 'conn.execute()'",
+                    "description": "Unsanitized user-controlled input reaches an execution sink. This allows high-impact code or query execution injections.",
+                    "impact": "Remote code execution, file system takeover, database corruption",
+                    "remediation": "Do not pass user variables directly to execution sinks. Sanitize input parameters or use safe parameterized queries.",
+                    "masvs": "MASVS-PLATFORM-2",
+                    "cwe": "CWE-94",
+                    "cvss_score": 9.8
+                },
+                {
+                    "rule_id": "C015_AST_TAINT_FLOW",
+                    "risk": "CRITICAL",
+                    "title": "OS Command Injection via os.system()",
+                    "line": 13,
+                    "evidence": "Tainted flow of variable 'user_data' to execution sink 'os.system()'",
+                    "description": "Unsanitized user-controlled input reaches an execution sink. This allows high-impact code or query execution injections.",
+                    "impact": "Remote code execution, file system takeover, database corruption",
+                    "remediation": "Do not pass user variables directly to execution sinks. Sanitize input parameters or use safe parameterized queries.",
+                    "masvs": "MASVS-PLATFORM-2",
+                    "cwe": "CWE-78",
+                    "cvss_score": 9.8
+                },
+                {
+                    "rule_id": "C015_AST_TAINT_FLOW",
+                    "risk": "CRITICAL",
+                    "title": "Critical Code Execution Injection via eval()",
+                    "line": 16,
+                    "evidence": "Tainted flow of variable 'user_data' to execution sink 'eval()'",
+                    "description": "Unsanitized user-controlled input reaches an execution sink. This allows high-impact code or query execution injections.",
+                    "impact": "Remote code execution, file system takeover, database corruption",
+                    "remediation": "Do not pass user variables directly to execution sinks. Sanitize input parameters or use safe parameterized queries.",
+                    "masvs": "MASVS-PLATFORM-2",
+                    "cwe": "CWE-95",
+                    "cvss_score": 9.8
+                }
+            ],
+            "permissions": [],
+            "exported_components": [],
+            "size": 437,
+            "is_binary": false
+        }
+    }
+}

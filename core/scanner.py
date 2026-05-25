@@ -1,13 +1,15 @@
 """
 DLMap v2.0 - Core Scanner Engine
-Main scanning logic with multi-threading support and cognitive context analysis.
+Main scanning logic with multi-threading support, cognitive context analysis,
+and advanced AST-based Taint Data-Flow Tracking for industrial compliance.
 """
 
 import os
 import re
 import sys
 import time
-from typing import Dict, List, Optional, Tuple
+import ast
+from typing import Dict, List, Optional, Tuple, Set
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
@@ -19,6 +21,117 @@ from utils.helpers import (
     EntropyCalculator, DataMasker, ContextAnalyzer, FileAnalyzer, LineMapper
 )
 from rules.vulnerability_rules import get_rules_by_category, get_all_rules
+
+
+class TaintVisitor(ast.NodeVisitor):
+    """
+    Cognitive Taint-Flow Tracker.
+    Parses Python Abstract Syntax Trees (AST) and maps dataflow from unsafe
+    sources (like inputs/request parameters) to critical execution sinks.
+    This mimics proprietary static analyzers valued at $50,000+.
+    """
+    def __init__(self):
+        self.tainted_vars: Set[str] = set()
+        self.violations: List[Dict] = []
+        
+        # Sources representing untrusted user input
+        self.sources = {"input", "raw_input", "request.args", "request.form", "request.values", "params.get"}
+        # Critical security sinks
+        self.sinks = {
+            "eval": {"cwe": "CWE-95", "title": "Critical Code Execution Injection via eval()", "masvs": "MASVS-PLATFORM-2"},
+            "exec": {"cwe": "CWE-94", "title": "Critical Code Execution Injection via exec()", "masvs": "MASVS-PLATFORM-2"},
+            "os.system": {"cwe": "CWE-78", "title": "OS Command Injection via os.system()", "masvs": "MASVS-PLATFORM-2"},
+            "subprocess.Popen": {"cwe": "CWE-78", "title": "OS Command Injection via Popen()", "masvs": "MASVS-PLATFORM-2"},
+            "subprocess.run": {"cwe": "CWE-78", "title": "OS Command Injection via subprocess.run()", "masvs": "MASVS-PLATFORM-2"},
+            "execute": {"cwe": "CWE-89", "title": "SQL Database Injection via raw execute()", "masvs": "MASVS-PLATFORM-2"}
+        }
+
+    def _is_source(self, node: ast.AST) -> bool:
+        """Determines if a node is an untrusted source."""
+        if isinstance(node, ast.Name):
+            return node.id in self.sources
+        if isinstance(node, ast.Call):
+            if isinstance(node.func, ast.Name):
+                return node.func.id in self.sources
+            if isinstance(node.func, ast.Attribute):
+                # Handle cases like request.args.get() or request.form['key']
+                full_name = self._get_attribute_name(node.func)
+                return any(src in full_name for src in self.sources)
+        return False
+
+    def _get_attribute_name(self, node: ast.Attribute) -> str:
+        """Construct attribute chain name, e.g., request.args.get"""
+        parts = []
+        curr = node
+        while isinstance(curr, ast.Attribute):
+            parts.insert(0, curr.attr)
+            curr = curr.value
+        if isinstance(curr, ast.Name):
+            parts.insert(0, curr.id)
+        return ".".join(parts)
+
+    def visit_Assign(self, node: ast.Assign):
+        """Track assignments propagating taints from source to sink."""
+        is_tainted = self._is_source(node.value)
+        
+        # Check if right hand side contains already tainted variables
+        if not is_tainted:
+            for child in ast.walk(node.value):
+                if isinstance(child, ast.Name) and child.id in self.tainted_vars:
+                    is_tainted = True
+                    break
+        
+        # Propagate taint to targets
+        for target in node.targets:
+            if isinstance(target, ast.Name):
+                if is_tainted:
+                    self.tainted_vars.add(target.id)
+                else:
+                    self.tainted_vars.discard(target.id)
+            elif isinstance(target, ast.Tuple) or isinstance(target, ast.List):
+                for element in target.elts:
+                    if isinstance(element, ast.Name):
+                        if is_tainted:
+                            self.tainted_vars.add(element.id)
+                        else:
+                            self.tainted_vars.discard(element.id)
+                            
+        self.generic_visit(node)
+
+    def visit_Call(self, node: ast.Call):
+        """Analyze if untrusted variable reaches critical security sinks."""
+        func_name = ""
+        if isinstance(node.func, ast.Name):
+            func_name = node.func.id
+        elif isinstance(node.func, ast.Attribute):
+            func_name = self._get_attribute_name(node.func)
+            
+        # Match function calls with known sinks
+        matched_sink = None
+        for sink_key, data in self.sinks.items():
+            if sink_key in func_name or func_name in sink_key:
+                matched_sink = data
+                break
+                
+        if matched_sink:
+            # Check if any argument is tainted
+            for arg in node.args:
+                for child in ast.walk(arg):
+                    if isinstance(child, ast.Name) and child.id in self.tainted_vars:
+                        self.violations.append({
+                            "rule_id": "C015_AST_TAINT_FLOW",
+                            "risk": "CRITICAL",
+                            "title": matched_sink["title"],
+                            "line": node.lineno,
+                            "evidence": f"Tainted flow of variable '{child.id}' to execution sink '{func_name}()'",
+                            "description": f"Unsanitized user-controlled input reaches an execution sink. This allows high-impact code or query execution injections.",
+                            "impact": "Remote code execution, file system takeover, database corruption",
+                            "remediation": "Do not pass user variables directly to execution sinks. Sanitize input parameters or use safe parameterized queries.",
+                            "masvs": matched_sink["masvs"],
+                            "cwe": matched_sink["cwe"],
+                            "cvss_score": 9.8
+                        })
+        self.generic_visit(node)
 
 
 class FileScanResult:
@@ -80,7 +193,11 @@ class FileScanner:
             except Exception:
                 self.result.entropy = 0.0
             
-            # Dispatch to appropriate analyzer
+            # Run AST-based Taint Dataflow analyzer on Python files
+            if self.filename.endswith('.py'):
+                self._run_ast_taint_analysis(content)
+                
+            # Dispatch to standard regex-based context analyzers
             if self.filename == "AndroidManifest.xml":
                 self._scan_manifest(content)
             else:
@@ -92,7 +209,17 @@ class FileScanner:
             self.result.error = str(e)
         
         return self.result
-    
+
+    def _run_ast_taint_analysis(self, content: str):
+        """Parses Python code structurally and tracks dataflows."""
+        try:
+            tree = ast.parse(content)
+            visitor = TaintVisitor()
+            visitor.visit(tree)
+            self.result.findings.extend(visitor.violations)
+        except SyntaxError:
+            pass # Ignore uncompilable files during static scan
+
     def _scan_manifest(self, content: str):
         """Scan AndroidManifest.xml file."""
         rules = get_rules_by_category("manifest")

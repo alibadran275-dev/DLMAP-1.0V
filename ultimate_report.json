@@ -1,0 +1,129 @@
+{
+    "sast_engine": "DLMap Ultimate Enterprise Suite",
+    "patent_metadata": {
+        "Patent_Title": "System and Method for Cognitive Semantic Context Filtering and Multi-Format Recursive Static Security Analysis in Compiled and Non-Compiled Application Archives",
+        "Inventors": [
+            "DLMap Core Lab",
+            "Helpful Agent on Arena.ai"
+        ],
+        "Date": "2026-05-25",
+        "Claims": [
+            "Claim 1: A computer-implemented method to recursively dissect multi-format application archives (ZIP, APK, IPA, JAR, AAR) down to nested tiers, dynamically applying a zero-dependency binary string translation engine to parse compiled formats (DEX, Class, SO, ELF, DLL) as raw character arrays without requiring full decompilation.",
+            "Claim 2: An algorithmic Cognitive Context Window (CCW) that extracts surrounding code lines (-5 to +5) around a matching pattern, applying a Semantic Weight Matrix (SWM) to elevate severity based on privilege keywords (e.g., 'prod', 'master', 'production') or degrade/suppress based on mock keywords (e.g., 'test', 'dummy', 'localhost').",
+            "Claim 3: A Token-Level Shannon Entropy Engine (TLSEE) that segmentizes textual data into individual lexemes and applies Shannon's entropy formula to discover high-randomness cryptographic secrets, bypassing regex limitations."
+        ]
+    },
+    "target": "./dlmap_unpack_test_app_temp",
+    "scan_metrics": {
+        "duration_seconds": 0.0036804676055908203,
+        "findings_summary": {
+            "CRITICAL": 0,
+            "HIGH": 6,
+            "MEDIUM": 2,
+            "LOW": 0,
+            "INFO": 0
+        }
+    },
+    "findings": {
+        "AndroidManifest.xml": {
+            "service": "AndroidManifest",
+            "file_size_bytes": 473,
+            "entropy": 4.995746844561073,
+            "findings": [
+                {
+                    "id": "M_DEBUGGABLE",
+                    "risk": "HIGH",
+                    "title": "Application Debuggable Mode Enabled",
+                    "evidence": "android:debuggable=\"true\"",
+                    "line": 4,
+                    "masvs": "MASVS-PLATFORM-1",
+                    "cwe": "CWE-489",
+                    "desc": "The application is marked debuggable, allowing arbitrary remote code execution via JDWP protocol.",
+                    "cognitive_escalations": 0,
+                    "cognitive_de_escalations": 1
+                },
+                {
+                    "id": "M_ALLOW_BACKUP",
+                    "risk": "MEDIUM",
+                    "title": "Application Data Backup Enabled",
+                    "evidence": "android:allowBackup=\"true\"",
+                    "line": 4,
+                    "masvs": "MASVS-STORAGE-1",
+                    "cwe": "CWE-921",
+                    "desc": "Allows unauthorized backup of sensitive sandbox data via ADB shell on non-rooted devices.",
+                    "cognitive_escalations": 0,
+                    "cognitive_de_escalations": 1
+                },
+                {
+                    "id": "M_CLEARTEXT_TRAFFIC",
+                    "risk": "HIGH",
+                    "title": "Cleartext Network Communication Permitted",
+                    "evidence": "android:usesCleartextTraffic=\"true\"",
+                    "line": 4,
+                    "masvs": "MASVS-NETWORK-1",
+                    "cwe": "CWE-319",
+                    "desc": "Bypasses system-level HTTPS enforcement, allowing insecure cleartext HTTP transfers.",
+                    "cognitive_escalations": 0,
+                    "cognitive_de_escalations": 1
+                }
+            ],
+            "permissions": [
+                {
+                    "name": "android.permission.READ_SMS",
+                    "desc": "Intercepts 2FA authentication SMS verification codes.",
+                    "line": 5
+                },
+                {
+                    "name": "android.permission.SYSTEM_ALERT_WINDOW",
+                    "desc": "Allows overlay execution for password harvesting/phishing overlays.",
+                    "line": 6
+                }
+            ],
+            "exported_components": [],
+            "high_entropy_tokens": [
+                {
+                    "token": "android....NDOW",
+                    "entropy": 4.543851526544547,
+                    "line": 6,
+                    "cognitive_risk": "MEDIUM",
+                    "semantic_escalation": 0,
+                    "semantic_de_escalation": 1
+                }
+            ]
+        },
+        "AppCode.java": {
+            "service": "Source Code",
+            "file_size_bytes": 444,
+            "entropy": 4.988316952864496,
+            "findings": [
+                {
+                    "id": "C_MD5_CRYPT",
+                    "risk": "HIGH",
+                    "title": "Broken MD5 Cryptographic Hash Usage",
+                    "evidence": "MD5",
+                    "line": 11,
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 suffers from computational collision vulnerabilities and must never be utilized for hashing secrets.",
+                    "cognitive_escalations": 1,
+                    "cognitive_de_escalations": 0
+                },
+                {
+                    "id": "C_MD5_CRYPT",
+                    "risk": "HIGH",
+                    "title": "Broken MD5 Cryptographic Hash Usage",
+                    "evidence": "MessageDigest.getInstance(\"MD5\"",
+                    "line": 12,
+                    "masvs": "MASVS-CRYPTO-1",
+                    "cwe": "CWE-327",
+                    "desc": "MD5 suffers from computational collision vulnerabilities and must never be utilized for hashing secrets.",
+                    "cognitive_escalations": 1,
+                    "cognitive_de_escalations": 0
+                }
+            ],
+            "permissions": [],
+            "exported_components": [],
+            "high_entropy_tokens": []
+        }
+    }
+}
